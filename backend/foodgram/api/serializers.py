@@ -16,11 +16,6 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         fields = ('email', 'id', 'username',
                   'first_name', 'last_name',
                   'password')
-        extra_kwargs = {
-            'first_name': {'required': True, 'allow_blank': False},
-            'last_name': {'required': True, 'allow_blank': False},
-            'email': {'required': True, 'allow_blank': False},
-        }
 
 
 class CustomUserSerializer(UserSerializer):
@@ -195,14 +190,6 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
             'text',
             'cooking_time',
         )
-        extra_kwargs = {
-            'ingredients': {'required': True, 'allow_blank': False},
-            'tags': {'required': True, 'allow_blank': False},
-            'name': {'required': True, 'allow_blank': False},
-            'text': {'required': True, 'allow_blank': False},
-            'image': {'required': True, 'allow_blank': False},
-            'cooking_time': {'required': True},
-        }
 
     def validate_ingredients(self, value):
         ingredients = value
@@ -216,10 +203,6 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
             if ingredient in ingredients_list:
                 raise ValidationError({
                     'ingredients': 'Ингридиенты не могут повторяться'
-                })
-            if int(item['amount']) <= 0:
-                raise ValidationError({
-                    'amount': 'Нужно указать минимум 1 ингридиент!'
                 })
             ingredients_list.append(ingredient)
         return value
