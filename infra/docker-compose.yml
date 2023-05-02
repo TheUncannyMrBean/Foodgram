@@ -10,12 +10,11 @@ services:
   
   backend:
       image: theuncannymrbean/foodgram_backend:latest
-        context: ../backend
-        dockerfile: Dockerfile
       restart: always
       volumes:
         - static_value:/app/static/
         - media_value:/app/media/
+        - redoc:/app/api/docs/
       depends_on:
         - db
       env_file:
