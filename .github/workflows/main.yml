@@ -1,14 +1,10 @@
-name: Foodgram Workflow
+name: Django-app workflow
 
-on:
-  push:
-    branches: [ master ]
-    paths-ignore:
-      - '**/README.md'
+on: [push]
+
+
 
 jobs:
-
-  jobs:
   tests:
     name: PEP8 check
     runs-on: ubuntu-latest
