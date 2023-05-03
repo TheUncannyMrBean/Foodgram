@@ -20,7 +20,7 @@ from .permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
 from .serializers import (CustomUserSerializer, IngredientSerializer,
                           RecipeReadSerializer, RecipeSerializer,
                           RecipeWriteSerializer, SubscribeSerializer,
-                          TagSerializer)
+                          TagSerializer, CustomUserCreateSerializer)
 
 
 class CustomUserViewSet(mixins.CreateModelMixin,
@@ -31,6 +31,11 @@ class CustomUserViewSet(mixins.CreateModelMixin,
     serializer_class = CustomUserSerializer
     permission_classes = (AllowAny,)
     pagination_class = CustomPagination
+
+    def get_serializer_class(self):
+        if self.action in ('list', 'retrieve'):
+            return CustomUserSerializer
+        return CustomUserCreateSerializer
 
     @action(
         detail=True,
