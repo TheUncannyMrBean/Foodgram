@@ -7,7 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
 from rest_framework import mixins, permissions, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -27,19 +27,12 @@ from .serializers import (CustomUserSerializer, IngredientSerializer,
 class CustomUserViewSet(UserViewSet):
     queryset = User.objects.all()
     pagination_class = CustomPagination
+    permission_classes = (AllowAny,)
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
             return CustomUserSerializer
         return CustomUserCreateSerializer
-
-    @action(detail=False, methods=['get'],
-            pagination_class=None,
-            permission_classes=(IsAuthenticated,))
-    def me(self, request):
-        serializer = CustomUserSerializer(request.user)
-        return Response(serializer.data,
-                        status=status.HTTP_200_OK)
 
     @action(
         detail=True,
