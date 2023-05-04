@@ -40,7 +40,6 @@ class UserViewSet(mixins.CreateModelMixin,
             return UserReadSerializer
         return UserCreateSerializer
 
-
     @action(
         detail=True,
         methods=['post', 'delete'],

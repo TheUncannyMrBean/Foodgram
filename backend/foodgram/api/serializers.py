@@ -35,7 +35,6 @@ class UserCreateSerializer(UserCreateSerializer):
         return obj
 
 
-
 class UserReadSerializer(UserSerializer):
     is_subscribed = serializers.SerializerMethodField()
 
@@ -51,7 +50,6 @@ class UserReadSerializer(UserSerializer):
             return Subscribe.objects.filter(user=self.context['request'].user,
                                             author=obj).exists()
         return False
-
 
 
 class SubscribeSerializer(UserSerializer):
