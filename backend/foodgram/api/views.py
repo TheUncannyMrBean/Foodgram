@@ -17,7 +17,7 @@ from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
 from users.models import Subscribe
 
 from .filters import IngredientFilter, RecipeFilter
-from .pagination import CustomPagination
+from .pagination import CustomPaginator
 from .permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
 from .serializers import (CustomUserSerializer, IngredientSerializer,
                           RecipeReadSerializer, RecipeSerializer,
@@ -30,7 +30,7 @@ User = get_user_model()
 class CustomUserViewSet(UserViewSet):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
-    pagination_class = CustomPagination
+    pagination_class = CustomPaginator
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
@@ -98,7 +98,7 @@ class TagViewSet(mixins.ListModelMixin,
 class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     permission_classes = (IsAuthorOrReadOnly | IsAdminOrReadOnly,)
-    pagination_class = CustomPagination
+    pagination_class = CustomPaginator
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
 
