@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.db.models import Sum
 from django.http import HttpResponse
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
@@ -13,7 +14,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                             ShoppingCart, Tag)
-from users.models import Subscribe, User
+from users.models import Subscribe
 
 from .filters import IngredientFilter, RecipeFilter
 from .pagination import CustomPagination
@@ -22,6 +23,8 @@ from .serializers import (CustomUserSerializer, IngredientSerializer,
                           RecipeReadSerializer, RecipeSerializer,
                           RecipeWriteSerializer, SubscribeSerializer,
                           TagSerializer, CustomUserCreateSerializer)
+
+User = get_user_model()
 
 
 class CustomUserViewSet(UserViewSet):
