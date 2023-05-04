@@ -24,10 +24,7 @@ from .serializers import (CustomUserSerializer, IngredientSerializer,
                           TagSerializer, CustomUserCreateSerializer)
 
 
-class CustomUserViewSet(mixins.CreateModelMixin,
-                        mixins.ListModelMixin,
-                        mixins.RetrieveModelMixin,
-                        viewsets.GenericViewSet):
+class CustomUserViewSet(UserViewSet):
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
     pagination_class = CustomPagination
@@ -44,7 +41,6 @@ class CustomUserViewSet(mixins.CreateModelMixin,
         serializer = CustomUserSerializer(request.user)
         return Response(serializer.data,
                         status=status.HTTP_200_OK)
-
 
     @action(
         detail=True,
