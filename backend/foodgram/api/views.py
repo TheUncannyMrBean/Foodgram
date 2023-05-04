@@ -26,7 +26,6 @@ from .serializers import (CustomUserSerializer, IngredientSerializer,
 
 class CustomUserViewSet(UserViewSet):
     queryset = User.objects.all()
-    serializer_class = CustomUserSerializer
     pagination_class = CustomPagination
 
     def get_serializer_class(self):
