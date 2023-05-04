@@ -7,9 +7,9 @@ from .models import (Favorite, Ingredient, Recipe, RecipeIngredient,
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'pk', 'author', 'added_in_favorites')
+    list_display = ('name', 'pk', 'author', 'in_favorites')
     list_filter = ('author', 'name', 'tags',)
-    readonly_fields = ('added_in_favorites',)
+    readonly_fields = ('in_favorites',)
 
     @display(description='В избранных')
     def added_in_favorites(self, obj):
