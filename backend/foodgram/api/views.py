@@ -19,23 +19,27 @@ from users.models import Subscribe
 from .filters import IngredientFilter, RecipeFilter
 from .pagination import CustomPagination
 from .permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from .serializers import (CustomUserSerializer, IngredientSerializer,
+from .serializers import (UserReadSerializer, IngredientSerializer,
                           RecipeReadSerializer, RecipeSerializer,
                           RecipeWriteSerializer, SubscribeSerializer,
-                          TagSerializer, CustomUserCreateSerializer)
+                          TagSerializer, UserCreateSerializer)
 
 User = get_user_model()
 
 
-class CustomUserViewSet(UserViewSet):
+class UserViewSet(mixins.CreateModelMixin,
+                  mixins.ListModelMixin,
+                  mixins.RetrieveModelMixin,
+                  viewsets.GenericViewSet):
     queryset = User.objects.all()
-    pagination_class = CustomPagination
     permission_classes = (AllowAny,)
+    pagination_class = CustomPagination
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
-            return CustomUserSerializer
-        return CustomUserCreateSerializer
+            return UserReadSerializer
+        return UserCreateSerializer
+
 
     @action(
         detail=True,

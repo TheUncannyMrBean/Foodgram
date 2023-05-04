@@ -13,29 +13,37 @@ from users.models import Subscribe
 User = get_user_model()
 
 
-class CustomUserCreateSerializer(UserCreateSerializer):
+class UserCreateSerializer(UserCreateSerializer):
     class Meta:
         model = User
         fields = ('email', 'id', 'username',
                   'first_name', 'last_name',
                   'password')
+        extra_kwargs = {
+            'first_name': {'required': True, 'allow_blank': False},
+            'last_name': {'required': True, 'allow_blank': False},
+            'email': {'required': True, 'allow_blank': False},
+        }
+
+    def validate(self, obj):
+        invalid_usernames = ['me', 'set_password',
+                             'subscriptions', 'subscribe']
+        if self.initial_data.get('username') in invalid_usernames:
+            raise serializers.ValidationError(
+                {'username': 'Вы не можете использовать этот username.'}
+            )
+        return obj
 
 
-class CustomUserSerializer(UserSerializer):
-    is_subscribed = serializers.SerializerMethodField(
-        read_only=True
-    )
+
+class UserReadSerializer(UserSerializer):
+    is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = (
-            'email',
-            'id',
-            'username',
-            'first_name',
-            'last_name',
-            'is_subscribed',
-        )
+        fields = ('email', 'id', 'username',
+                  'first_name', 'last_name',
+                  'is_subscribed')
 
     def get_is_subscribed(self, obj):
         if (self.context.get('request')
@@ -45,14 +53,15 @@ class CustomUserSerializer(UserSerializer):
         return False
 
 
-class SubscribeSerializer(CustomUserSerializer):
+
+class SubscribeSerializer(UserSerializer):
     email = serializers.ReadOnlyField()
     username = serializers.ReadOnlyField()
     is_subscribed = serializers.SerializerMethodField()
     recipes_count = serializers.SerializerMethodField()
     recipes = serializers.SerializerMethodField()
 
-    class Meta(CustomUserSerializer.Meta):
+    class Meta(UserSerializer.Meta):
         fields = ('email', 'id',
                   'username', 'first_name',
                   'last_name', 'is_subscribed',
@@ -122,7 +131,7 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
 
 class RecipeReadSerializer(serializers.ModelSerializer):
-    author = CustomUserSerializer(read_only=True)
+    author = UserReadSerializer(read_only=True)
     tags = TagSerializer(many=True, read_only=True)
     ingredients = RecipeIngredientSerializer(
         many=True,
@@ -177,7 +186,7 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         queryset=Tag.objects.all(),
         many=True
     )
-    author = CustomUserSerializer(read_only=True)
+    author = UserReadSerializer(read_only=True)
     id = serializers.ReadOnlyField()
     ingredients = IngredientInRecipeWriteSerializer(many=True)
     image = Base64ImageField()
