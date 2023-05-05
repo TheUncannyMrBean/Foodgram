@@ -12,9 +12,9 @@ class RecipeAdmin(admin.ModelAdmin):
     readonly_fields = ('in_favorites',)
     empty_value_display = '-пусто-'
 
-    @display(description='В избранных')
+    @admin.display(description='В избранных')
     def in_favorites(self, obj):
-        return obj.favorites.count()
+        return obj.favorite_recipe.count()
 
 
 @admin.register(Ingredient)
