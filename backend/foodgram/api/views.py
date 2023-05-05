@@ -31,11 +31,7 @@ class CustomUserViewSet(UserViewSet):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     pagination_class = CustomPaginator
-
-    def get_serializer_class(self):
-        if self.action in ('list', 'retrieve'):
-            return CustomUserSerializer
-        return CustomUserCreateSerializer
+    serializer_class = CustomUserCreateSerializer
 
     @action(
         detail=True,

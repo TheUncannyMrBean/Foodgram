@@ -19,10 +19,8 @@ class CustomUserCreateSerializer(UserCreateSerializer):
                   'password')
 
 
-class CustomUserSerializer(UserSerializer):
-    is_subscribed = serializers.SerializerMethodField(
-        read_only=True
-    )
+class CustomUserSerializer(serializers.ModelSerializer):
+    is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
         model = User

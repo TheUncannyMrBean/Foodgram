@@ -4,9 +4,29 @@ from django.db.models import UniqueConstraint
 
 
 class User(AbstractUser):
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = [
+        'username',
+        'first_name',
+        'last_name',
+        'password',
+    ]
     email = models.EmailField(
+        'email address',
         max_length=254,
-        unique=True
+        unique=True,
+    )
+    password = models.CharField(
+        'Пароль', 
+        max_length=150
+    )
+    username = models.CharField(
+        'Логин',
+        max_length=150,
+        unique=True,
+        error_messages={
+            'unique': 'Пользователь с таким username уже существует.',
+        }
     )
 
     class Meta:
