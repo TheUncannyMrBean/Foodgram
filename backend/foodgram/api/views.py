@@ -19,7 +19,7 @@ from users.models import Subscribe
 from .filters import IngredientFilter, RecipeFilter
 from .pagination import CustomPaginator
 from .permissions import IsAdminOrReadOnly, IsAuthorOrReadOnly
-from .serializers import (CustomUserSerializer, IngredientSerializer,
+from .serializers import (IngredientSerializer,
                           RecipeReadSerializer, RecipeSerializer,
                           RecipeWriteSerializer, SubscribeSerializer,
                           TagSerializer, CustomUserCreateSerializer)
