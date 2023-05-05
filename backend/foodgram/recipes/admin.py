@@ -10,6 +10,7 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = ('name', 'pk', 'author', 'in_favorites')
     list_filter = ('author', 'name', 'tags',)
     readonly_fields = ('in_favorites',)
+    empty_value_display = '-пусто-'
 
     @display(description='В избранных')
     def in_favorites(self, obj):
@@ -26,6 +27,7 @@ class IngredientAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'color', 'slug',)
     list_editable = ('name', 'color', 'slug')
+    empty_value_display = '-пусто-'
 
 
 @admin.register(ShoppingCart)
