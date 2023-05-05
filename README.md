@@ -40,7 +40,7 @@ POSTGRES_PASSWORD       # postgres
 DB_HOST                 # db
 DB_PORT                 # 5432 (порт по умолчанию)
 ```
-4. Созда1те и запустите контейнеры Docker:
+4. Создайте и запустите контейнеры Docker:
 *(версии команд "docker compose" или "docker-compose" отличаются в зависимости от установленной версии Docker Compose):*
 ```
 sudo docker compose up -d
